@@ -12,4 +12,8 @@ export class Point {
     this.x += x;
     this.y += y;
   }
+
+  static clone(point: Point): Point {
+    return new Point(point.x, point.y);
+  }
 }
