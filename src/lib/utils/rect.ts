@@ -161,6 +161,11 @@ export class Rect extends BaseModel {
     return this;
   }
 
+  equals(anotherRect: Rect): boolean {
+    return this.left === anotherRect.left && this.top === anotherRect.top &&
+      this.width === anotherRect.width && this.height === anotherRect.height;
+  }
+
   static readonly InfinityRect = new Rect()
     .setLeft(-Number.MAX_VALUE / 2)
     .setTop(-Number.MAX_VALUE / 2)
