@@ -14,4 +14,8 @@ export class Size {
   zoomToHeight(height: number): void {
     this.zoom(height / this.height);
   }
+
+  clone(): Size {
+    return new Size(this.width, this.height);
+  }
 }

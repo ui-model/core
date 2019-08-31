@@ -14,4 +14,8 @@ export class Distance {
   zoomToY(y: number): void {
     this.zoom(y / this.y);
   }
+
+  clone(): Distance {
+    return new Distance(this.x, this.y);
+  }
 }

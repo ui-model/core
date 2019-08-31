@@ -1,4 +1,6 @@
 import { BaseModel } from '../common/base-model';
+import { Point } from './point';
+import { Properties } from './type-utils';
 
 export class Rect extends BaseModel {
 
@@ -13,6 +15,10 @@ export class Rect extends BaseModel {
   set left(value: number) {
     this._left = value;
     this.changed();
+  }
+
+  get leftTop(): Point {
+    return new Point(this.left, this.top);
   }
 
   private _top = 0;
@@ -153,7 +159,7 @@ export class Rect extends BaseModel {
     return this.moveTo(x - this.halfWidth, y - this.halfHeight);
   }
 
-  copyFrom(rect: Rect): this {
+  copyFrom(rect: Properties<Rect>): this {
     this.left = rect.left;
     this.top = rect.top;
     this.width = rect.width;
@@ -161,7 +167,11 @@ export class Rect extends BaseModel {
     return this;
   }
 
-  equals(anotherRect: Rect): boolean {
+  clone(): Rect {
+    return new Rect().copyFrom(this);
+  }
+
+  equals(anotherRect: Properties<Rect>): boolean {
     return this.left === anotherRect.left && this.top === anotherRect.top &&
       this.width === anotherRect.width && this.height === anotherRect.height;
   }
@@ -176,7 +186,7 @@ export class Rect extends BaseModel {
     return new Rect().setLeft(left).setTop(top).setWidth(width).setHeight(height);
   }
 
-  static copyFrom(rect: Rect): Rect {
+  static copyFrom(rect: Properties<Rect>): Rect {
     return Rect.from(rect.left, rect.top, rect.width, rect.height);
   }
 

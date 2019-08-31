@@ -20,3 +20,4 @@ export { Point } from './lib/utils/point';
 export { Size } from './lib/utils/size';
 export { Distance } from './lib/utils/distance';
 export * from './lib/utils/typings';
+export * from './lib/utils/type-utils';

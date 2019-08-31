@@ -8,7 +8,7 @@ describe('Point', () => {
   });
   it('move', () => {
     const value = new Point(10, 20);
-    value.move(5, -10);
+    value.move({ x: 5, y: -10 });
     expect(value.x).toEqual(15);
     expect(value.y).toEqual(10);
   });
