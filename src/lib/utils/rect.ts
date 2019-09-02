@@ -21,6 +21,38 @@ export class Rect extends BaseModel {
     return new Point(this.left, this.top);
   }
 
+  get leftMiddle(): Point {
+    return new Point(this.left, this.centerY);
+  }
+
+  get leftBottom(): Point {
+    return new Point(this.left, this.bottom);
+  }
+
+  get centerTop(): Point {
+    return new Point(this.centerX, this.top);
+  }
+
+  get center(): Point {
+    return new Point(this.centerX, this.centerY);
+  }
+
+  get centerBottom(): Point {
+    return new Point(this.centerX, this.bottom);
+  }
+
+  get rightTop(): Point {
+    return new Point(this.right, this.top);
+  }
+
+  get rightMiddle(): Point {
+    return new Point(this.right, this.centerY);
+  }
+
+  get rightBottom(): Point {
+    return new Point(this.right, this.bottom);
+  }
+
   private _top = 0;
 
   get top(): number {
@@ -102,12 +134,12 @@ export class Rect extends BaseModel {
     return this;
   }
 
-  limitTo(limit: Rect): Rect {
+  limitTo(limit: Rect): this {
     this.limit = limit;
     return this;
   }
 
-  zoom(scale: number): Rect {
+  zoom(scale: number): this {
     scale = Math.min(scale, this.limit.width / this.width);
     scale = Math.min(scale, this.limit.height / this.height);
     this.left *= scale;
@@ -117,19 +149,19 @@ export class Rect extends BaseModel {
     return this;
   }
 
-  zoomToMax(): Rect {
+  zoomToMax(): this {
     return this.zoom(Number.MAX_VALUE);
   }
 
-  zoomToWidth(width: number): Rect {
+  zoomToWidth(width: number): this {
     return this.zoom(width / this.width);
   }
 
-  zoomToHeight(height: number): Rect {
+  zoomToHeight(height: number): this {
     return this.zoom(height / this.height);
   }
 
-  moveX(deltaX: number): Rect {
+  moveX(deltaX: number): this {
     const left = this.left + deltaX;
     const minLeft = this.limit.left;
     const maxLeft = this.limit.right - this.width;
@@ -137,7 +169,7 @@ export class Rect extends BaseModel {
     return this;
   }
 
-  moveY(deltaY: number): Rect {
+  moveY(deltaY: number): this {
     const top = this.top + deltaY;
     const minTop = this.limit.top;
     const maxTop = this.limit.bottom - this.height;
@@ -145,17 +177,25 @@ export class Rect extends BaseModel {
     return this;
   }
 
-  move(deltaX: number, deltaY: number): Rect {
+  move(deltaX: number, deltaY: number): this {
     this.moveX(deltaX);
     this.moveY(deltaY);
     return this;
   }
 
-  moveTo(left: number, top: number): Rect {
+  moveTo(left: number, top: number): this {
     return this.move(left - this.left, top - this.top);
   }
 
-  centerTo(x: number, y: number): Rect {
+  changeTo(left: number, top: number, right: number, bottom: number): this {
+    this.left = left;
+    this.top = top;
+    this.width = right - left;
+    this.height = bottom - top;
+    return this;
+  }
+
+  centerTo(x: number, y: number): this {
     return this.moveTo(x - this.halfWidth, y - this.halfHeight);
   }
 
