@@ -4,6 +4,14 @@ import { Properties } from './type-utils';
 
 export class Rect extends BaseModel {
 
+  constructor(left = 0, top = 0, width = 0, height = 0) {
+    super();
+    this._left = left;
+    this._top = top;
+    this._width = width;
+    this._height = height;
+  }
+
   limit = Rect.InfinityRect;
 
   private _left = 0;
@@ -222,15 +230,31 @@ export class Rect extends BaseModel {
     .setWidth(Number.MAX_VALUE)
     .setHeight(Number.MAX_VALUE);
 
-  static from(left: number, top: number, width: number, height: number): Rect {
+  static of(left: number, top: number, width: number, height: number): Rect {
     return new Rect().setLeft(left).setTop(top).setWidth(width).setHeight(height);
   }
 
+  static union(...rects: Rect[]): Rect {
+    const left = Math.min(...rects.map(it => it.left));
+    const top = Math.min(...rects.map(it => it.top));
+    const right = Math.max(...rects.map(it => it.right));
+    const bottom = Math.max(...rects.map(it => it.bottom));
+    return new Rect(left, top, right - left, bottom - top);
+  }
+
+  static fromPoints(...points: Point[]): Rect {
+    const left = Math.min(...points.map(it => it.x));
+    const top = Math.min(...points.map(it => it.y));
+    const right = Math.max(...points.map(it => it.x));
+    const bottom = Math.max(...points.map(it => it.y));
+    return new Rect(left, top, right - left, bottom - top);
+  }
+
   static copyFrom(rect: Properties<Rect>): Rect {
-    return Rect.from(rect.left, rect.top, rect.width, rect.height);
+    return Rect.of(rect.left, rect.top, rect.width, rect.height);
   }
 
   static fromClientRect(rect: ClientRect, scrollX: number = 0, scrollY: number = 0): Rect {
-    return Rect.from(rect.left, rect.top, rect.width, rect.height).move(scrollX, scrollY);
+    return Rect.of(rect.left, rect.top, rect.width, rect.height).move(scrollX, scrollY);
   }
 }
