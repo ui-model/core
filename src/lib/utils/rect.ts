@@ -137,8 +137,18 @@ export class Rect extends BaseModel {
     return this;
   }
 
+  addWidth(deltaX: number): this {
+    this.width += deltaX;
+    return this;
+  }
+
   setHeight(value: number): this {
     this.height = value;
+    return this;
+  }
+
+  addHeight(deltaY: number): this {
+    this.height += deltaY;
     return this;
   }
 
